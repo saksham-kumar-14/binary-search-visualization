@@ -1,4 +1,4 @@
-import pygame, sys , random
+import pygame, sys , random , time 
 pygame.init()
 WIDTH, HEIGHT = 900, 700 
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -35,6 +35,8 @@ if __name__ == '__main__':
 	width = (WIDTH-(len(list_)*5)) // len(list_)
 	found = False
 	start = False
+	initial_time = None
+	end_time = None 
 
 	start_btn = btn()
 	mid = -1
@@ -56,6 +58,8 @@ if __name__ == '__main__':
  		start_btn.draw()
  		if start_btn.clicked:
  			start = True 
+ 			if initial_time == None: 
+ 				initial_time = time.time()
 
  		#animation stuff
  		x = 5 
@@ -79,12 +83,17 @@ if __name__ == '__main__':
 	 		if mid!=-1:
 	 			if list_[mid] == target:
 	 				found = True 
+	 				end_time = time.time()
 	 			elif list_[mid] < target:
 	 				left = mid+1
 	 			else:
 	 				right = mid-1
 
 	 		mid = (left+right)//2
+
+	 	if found:
+	 		time_taken_font = pygame.font.Font('freesansbold.ttf', 15).render(f'Time Taken : {(end_time - initial_time)}', True, (0,0,0))
+	 		SCREEN.blit(time_taken_font, (0,50))
 
 
 	 	pygame.time.Clock().tick(5)
