@@ -2,6 +2,7 @@ import pygame, sys , random
 pygame.init()
 WIDTH, HEIGHT = 900, 700 
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Binary Search")
 
 class btn:
 	def __init__(self):
