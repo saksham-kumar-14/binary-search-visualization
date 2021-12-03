@@ -10,6 +10,7 @@ class btn:
 		self.width = 100
 		self.height = 50 
 		self.clicked = False 
+		self.font = pygame.font.Font('freesansbold.ttf', 30).render('START', True, (255,255,255))
 
 	def draw(self):
 		if ((self.width + self.x > pygame.mouse.get_pos()[0] > self.x) and (self.height + self.y > pygame.mouse.get_pos()[1] > self.y)) : 
@@ -20,6 +21,7 @@ class btn:
 			self.color = (0,128,0) 
 
 		pygame.draw.rect(SCREEN,self.color,pygame.Rect(self.x,self.y,self.width,self.height))
+		SCREEN.blit(self.font,(0,0))
 
 
 if __name__ == '__main__': 
