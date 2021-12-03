@@ -1,0 +1,89 @@
+import pygame, sys , random
+pygame.init()
+WIDTH, HEIGHT = 900, 700 
+SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
+
+class btn:
+	def __init__(self):
+		self.x, self.y = 0, 0 
+		self.width = 100
+		self.height = 50 
+		self.clicked = False 
+
+	def draw(self):
+		if ((self.width + self.x > pygame.mouse.get_pos()[0] > self.x) and (self.height + self.y > pygame.mouse.get_pos()[1] > self.y)) : 
+			self.color = (0,255,0)
+			if True in pygame.mouse.get_pressed():
+				self.clicked = True 
+		else:
+			self.color = (0,128,0) 
+
+		pygame.draw.rect(SCREEN,self.color,pygame.Rect(self.x,self.y,self.width,self.height))
+
+
+if __name__ == '__main__': 
+
+	# defining some animation variables
+	list_ = [25,50,88,95,150,160,171,195,220,237,255,300,360,375,395,420,425,450,470,477,492,550,598,602,625,647,677]
+	target_index = random.randrange(0,len(list_))
+	target = list_[target_index]
+
+	left, right = 0, len(list_)-1
+	width = (WIDTH-(len(list_)*5)) // len(list_)
+	found = False
+	start = False
+
+	start_btn = btn()
+	mid = -1
+
+	# game loop
+	while True:
+ 		for event in pygame.event.get():
+ 			if event.type == pygame.QUIT or pygame.key.get_pressed()[pygame.K_ESCAPE]:
+ 				pygame.quit()
+
+ 				sys.exit()
+
+ 		# background color and fonts
+ 		SCREEN.fill((255,255,255))
+ 		target_font = pygame.font.Font('freesansbold.ttf', 32).render(f'Target : {target_index}', True, (0,0,0))
+ 		SCREEN.blit(target_font, (WIDTH//2,0))
+
+ 		# start btn
+ 		start_btn.draw()
+ 		if start_btn.clicked:
+ 			start = True 
+
+ 		#animation stuff
+ 		x = 5 
+ 		for i in range(len(list_)):
+ 			if i == left or i == right:
+ 				color = (255,255,0)
+ 			if i == mid:
+ 				color = (255,0,0)
+ 				if list_[mid] == target:
+ 					color = (0,255,0)
+ 			if i!=left and i!=right and i!=mid :
+ 				color = (0,0,0)
+
+ 			y = HEIGHT - list_[i]
+
+ 			pygame.draw.rect(SCREEN,color,pygame.Rect(x,y,width,list_[i]))
+ 			x += (width+5) 
+
+ 		# binary search 
+ 		if start and not found: 
+	 		if mid!=-1:
+	 			if list_[mid] == target:
+	 				found = True 
+	 			elif list_[mid] < target:
+	 				left = mid+1
+	 			else:
+	 				right = mid-1
+
+	 		mid = (left+right)//2
+
+
+	 	pygame.time.Clock().tick(5)
+	 	pygame.display.update()
+
