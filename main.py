@@ -23,11 +23,25 @@ class btn:
 		pygame.draw.rect(SCREEN,self.color,pygame.Rect(self.x,self.y,self.width,self.height))
 		SCREEN.blit(self.font,(0,0))
 
+def sort(list_):
+	for i in range(len(list_)):
+		for j in range(i+1,len(list_)):
+			if list_[i] > list_[j]:
+				temp = list_[i]
+				list_[i] = list_[j]
+				list_[j] = temp
+
+	return list_
+
 
 if __name__ == '__main__': 
 
 	# defining some animation variables
-	list_ = [25,50,88,95,150,160,171,195,220,237,255,300,360,375,395,420,425,450,470,477,492,550,598,602,625,647,677]
+	list_ = []
+	for i in range(60):
+		list_.append(random.randrange(25,HEIGHT-25))
+
+	list_ = sort(list_) 
 	target_index = random.randrange(0,len(list_))
 	target = list_[target_index]
 
